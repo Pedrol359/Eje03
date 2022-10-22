@@ -28,4 +28,5 @@ public addTask(){
   public completeTask(index:number){
     this.tasksService.addCompletedTask(index);
   }
+
 }
