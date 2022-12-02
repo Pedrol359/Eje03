@@ -1,58 +1,96 @@
+import { Task } from './../models/task';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Injectable } from '@angular/core';
+import { Data } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TasksService {
   //Definición de modelo o conexión con la base de datos
-  private tasks: string[] = []; //Creación del modelo
-  private tasksCompleted: string[] = []; //Creación del modelo
-  //Para que el push funcione, debemos inicializar el arreglo
+  public tasks: string[] = []; //Creación del modelo
+  public tasksCompleted: string[] = []; //Creación del modelo
+  public idTask: string[] = [];
+  public idTasksComplete: string[] = []; 
+ 
+  constructor(private firestore: AngularFirestore) {
+    // this.getDataFromFirestore();
+  }
 
-
-  constructor() {
-    // this.tasks.push('Tarea 1'); //Usamos push para agregar nuevos elementos
-    // this.tasks.push('Tarea 2');
-    this.tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    this.tasksCompleted = JSON.parse(localStorage.getItem('tasksCompleted')) || [];    
-    console.log(this.tasks);
-    console.log(this.tasksCompleted);
+  // private async getDataFromFirestore(){
     
+  // }
+  public getTasks(){
+    return this.firestore.collection('Tareas').snapshotChanges();
   }
 
-  public getTasks(): string[]{
-    return this.tasks;
-  }
-  public getTasksCompleted(): string[]{
-    return this.tasksCompleted;
+  public getTasksCompleted(){
+    return this.firestore.collection('TareasConcluidas').snapshotChanges()
+
   }
 
   public addTask(task: string){
-    this.tasks.push(task);
-    this.updateTask();
+    const taskObject = {name:task}
+    const resultado = this.firestore.collection('Tareas').add(taskObject);
+    resultado.then(res => {
+      this.tasks.push(task);
+      this.idTask.push(res.id);
+    })
+
+    
   }
 
   public removeTask(index: number){
+    // console.log(this.idTask);
+    // console.log(this.idTask[index]);
+    // console.log();
+    this.firestore.collection('Tareas').doc(this.idTask[index]).delete()
     this.tasks.splice(index, 1); //Eliminar elemento de un array splice(index,cuantos elementos a partir del index)
-    this.updateTask();
+    this.idTask.splice(index, 1);
   }
  
   public addCompletedTask(index: number){
-    this.tasksCompleted.push(this.tasks[index]);
-    this.updateTaskCompleted();
+    
+    const task = this.tasks[index]
+    const taskObject = {name:task}
+    const resultado = this.firestore.collection('TareasConcluidas').add(taskObject);
+    resultado.then(res => {
+      this.tasksCompleted.push(task);
+      this.idTasksComplete.push(res.id);
+    })
     this.removeTask(index);
   }
   
   public removeTaskCompleted(index: number){
+    console.log(this.firestore.collection('TareasConcluidas').doc(this.idTasksComplete[index]).delete());
     this.tasksCompleted.splice(index, 1); //Eliminar elemento de un array splice(index,cuantos elementos a partir del index)
-    this.updateTaskCompleted();
+    this.idTasksComplete.splice(index, 1); //Eliminar elemento de un array splice(index,cuantos elementos a partir del index)
+
+  }
+  public getTasksReference(){
+    return this.tasks
+  }
+  public getTasksCompleteReference(){
+    return this.tasksCompleted
+  }
+  public getIdTasksReference(){
+    return this.idTask
+  }
+  public getIdTaskscompleteReference(){
+    return this.idTasksComplete
   }
 
-  private updateTask(){
-    localStorage.setItem('tasks',JSON.stringify(this.tasks));
+  public setTasks(tasks: string[]){
+    this.tasks = tasks;
+  }
+  public setTasksId(tasksId: string[]){
+    this.idTask = tasksId;
+  }
+  public setTasksCompleted(tasks: string[]){
+    this.tasksCompleted = tasks;
+  }
+  public setTasksCompletedId(taskId: string[]){
+    this.idTasksComplete = taskId;
   }
 
-  private updateTaskCompleted(){
-    localStorage.setItem('tasksCompleted',JSON.stringify(this.tasksCompleted));
-  }
 }
