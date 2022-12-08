@@ -29,10 +29,9 @@ export class Tab1Page {
       
     });
   }
-
-
-  public completeTask(index:number){
-    this.tasksService.addCompletedTask(index);
+  
+  public completeTask(i:number){
+    this.tasksService.addCompletedTask(i);
   }
 
   public removeTask(p: number){

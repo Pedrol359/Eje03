@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 })
 
 export class Tab2Page {
+
   public tasksCompleted: string[];
   public idTasksComplete: string[];
   public task: string;
@@ -46,5 +47,11 @@ export class Tab2Page {
     this.removeTaskCompleted(index);
   }
 
-
 }
+
+
+
+
+
+
+
