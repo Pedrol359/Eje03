@@ -1,35 +1,19 @@
 <ion-header [translucent]="false">
   <ion-toolbar>
     <ion-title>
-      Lista de tareas Terminadas
+      Tareas terminadas
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- <ion-row>
-    <ion-col size-lg="11" size-xs="6">
-      <ion-item>
-        <ion-label position="floating">
-          Nueva Tarea
-        </ion-label>
-        <ion-input [(ngModel)]="task" (keyup.enter)="addTask()"></ion-input>
-      </ion-item>
-    </ion-col>
-    <ion-col size-lg="1" size-xs="6">
-      <ion-button expand="block" *ngIf="task" (click)="addTask()">
-        <ion-icon name="add"></ion-icon>
-      </ion-button>
-    </ion-col>
-
-  </ion-row> -->
   <ion-row>
     <ion-col>
       <ion-list>
         <ion-item-sliding side="end" *ngFor="let item of tasksCompleted; let i = index">
           <ion-item-options side="start" (ionSwipe) = "addTask(i)">
             <ion-item-option>
-              Unfinished
+              Incompleta
               <ion-icon slot="start" name="arrow-undo"></ion-icon>
             </ion-item-option>
           </ion-item-options>
@@ -42,8 +26,7 @@
 
           <ion-item-options (ionSwipe) = "removeTaskCompleted(i)">
             <ion-item-option expandable color="danger">
-              <!-- <ion-icon name="trash.outline"></ion-icon> -->
-              Delete
+              Eliminar
               <ion-icon slot="icon-only" name="trash"></ion-icon>
             </ion-item-option>
           </ion-item-options>

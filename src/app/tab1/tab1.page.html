@@ -1,7 +1,7 @@
 <ion-header [translucent]="false">
   <ion-toolbar>
     <ion-title>
-      Lista de tareas
+      LISTA DE TAREAS
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -10,9 +10,7 @@
   <ion-row>
     <ion-col size-lg="11" size-xs="6">
       <ion-item>
-        <!--Creamos un item que une label e input-->
         <ion-label position="floating">
-          <!--Cambia posición a flotante al hacer focus en Input-->
           Nueva Tarea
         </ion-label>
         <ion-input [(ngModel)]="task" (keyup.enter)="addTask()"></ion-input>
@@ -31,7 +29,7 @@
         <ion-item-sliding side="end" *ngFor="let item of tasks; let i = index">
           <ion-item-options side="start" (ionSwipe) = "completeTask(i)">
             <ion-item-option color="success">
-              Done
+              Completada
               <ion-icon slot="start" name="archive"></ion-icon>
             </ion-item-option>
             
@@ -45,7 +43,7 @@
 
           <ion-item-options (ionSwipe) = "removeTask(i)">
             <ion-item-option expandable color="danger">
-              Delete              
+              Eliminar              
               <ion-icon slot="icon-only" name="trash"></ion-icon>
             </ion-item-option>
           </ion-item-options>
